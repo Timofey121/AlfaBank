@@ -1,0 +1,18 @@
+# Build
+/bin/
+/server
+
+# Runtime data
+data/
+certs/
+
+# Environment
+.env
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# macOS
+.DS_Store

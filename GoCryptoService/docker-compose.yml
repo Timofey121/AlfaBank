@@ -1,0 +1,16 @@
+services:
+  crypto-go:
+    build: .
+    container_name: crypto-go-service
+    ports:
+      - "8080:8080"
+    environment:
+      KEYSTORE_PATH: /app/certs
+      DB_PATH: /app/data/cryptodb.sqlite
+      KEYSTORE_PASSWORD: ${KEYSTORE_PASSWORD}
+    volumes:
+      - ./certs:/app/certs
+      - go-data:/app/data
+
+volumes:
+  go-data:

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Service — Web UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Crypto Service</h1>
+</header>
+
+<nav id="tabs">
+    <button class="tab-btn active" data-tab="encrypt">Encrypt</button>
+    <button class="tab-btn" data-tab="decrypt">Decrypt</button>
+    <button class="tab-btn" data-tab="sign">Sign</button>
+    <button class="tab-btn" data-tab="verify">Verify</button>
+    <button class="tab-btn" data-tab="hash">Hash</button>
+    <button class="tab-btn" data-tab="fetch">Fetch</button>
+    <button class="tab-btn" data-tab="keystore">Keystore</button>
+</nav>
+
+<main>
+    <section class="tab-panel active" id="panel-encrypt">
+        <h2>Шифрование (RSA + AES-GCM)</h2>
+        <form id="form-encrypt">
+            <div class="field" data-binary-input="plaintext" data-modes="file,text" data-text-label="Текст для шифрования"></div>
+            <div class="field" data-binary-input="recipientCertificate" data-modes="file,base64" data-text-label="Сертификат получателя (DER)"></div>
+            <button type="submit">Зашифровать</button>
+        </form>
+        <div class="result" id="result-encrypt"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-decrypt">
+        <h2>Расшифровка</h2>
+        <form id="form-decrypt">
+            <div class="field" data-binary-input="ciphertext" data-modes="base64,file" data-text-label="Шифртекст"></div>
+            <label>Key alias
+                <input type="text" name="keyAlias" value="crypto-key" required>
+            </label>
+            <button type="submit">Расшифровать</button>
+        </form>
+        <div class="result" id="result-decrypt"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-sign">
+        <h2>Подпись (PKCS#7)</h2>
+        <form id="form-sign">
+            <div class="field" data-binary-input="data" data-modes="file,text" data-text-label="Документ для подписи"></div>
+            <label>Key alias
+                <input type="text" name="keyAlias" value="crypto-key" required>
+            </label>
+            <label>Режим
+                <select name="mode">
+                    <option value="ATTACHED">ATTACHED</option>
+                    <option value="DETACHED">DETACHED</option>
+                </select>
+            </label>
+            <button type="submit">Подписать</button>
+        </form>
+        <div class="result" id="result-sign"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-verify">
+        <h2>Верификация подписи</h2>
+        <form id="form-verify">
+            <div class="field" data-binary-input="signature" data-modes="base64,file" data-text-label="Подпись"></div>
+            <div class="field" data-binary-input="data" data-modes="file,text" data-text-label="Оригинальный документ (нужен для DETACHED)" data-optional="true"></div>
+            <label>Режим
+                <select name="mode">
+                    <option value="ATTACHED">ATTACHED</option>
+                    <option value="DETACHED">DETACHED</option>
+                </select>
+            </label>
+            <button type="submit">Проверить</button>
+        </form>
+        <div class="result" id="result-verify"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-hash">
+        <h2>SHA-256 хэш</h2>
+        <form id="form-hash">
+            <div class="field" data-binary-input="data" data-modes="file,text" data-text-label="Данные для хэширования"></div>
+            <button type="submit">Посчитать хэш</button>
+        </form>
+        <div class="result" id="result-hash"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-fetch">
+        <h2>HTTPS Fetch</h2>
+        <form id="form-fetch">
+            <label>URL
+                <input type="url" name="url" placeholder="https://jsonplaceholder.typicode.com/todos/1" required>
+            </label>
+            <label>Timeout, сек
+                <input type="number" name="timeoutSeconds" value="30" min="1">
+            </label>
+            <button type="submit">Загрузить</button>
+        </form>
+        <div class="result" id="result-fetch"></div>
+    </section>
+
+    <section class="tab-panel" id="panel-keystore">
+        <h2>Генерация keystore (dev)</h2>
+        <form id="form-keystore">
+            <label>Alias
+                <input type="text" name="alias" value="crypto-key" required>
+            </label>
+            <label>CN
+                <input type="text" name="cn" value="CryptoService" required>
+            </label>
+            <label>Validity, дней
+                <input type="number" name="validityDays" value="365" min="1" max="3650">
+            </label>
+            <button type="submit">Сгенерировать</button>
+        </form>
+        <div class="result" id="result-keystore"></div>
+    </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
